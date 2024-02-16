@@ -1,0 +1,13 @@
+#!/bin/sh
+
+dir=${1%/}
+if [ -z "$dir" ]; then
+  dir="."
+fi
+
+find "$dir" -type f |
+  sort | 
+  sed "s/^\(.*\)$/\"\1\"/g" |
+  xargs sha1sum |
+  sha1sum |
+  awk '{print $1}'
