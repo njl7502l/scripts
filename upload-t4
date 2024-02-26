@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+board=$(arduino-cli board list | grep teensy | awk '{ print $1 }')
+if [ -z "$board" ]; then
+  echo "board not found"
+  exit 1
+else
+  echo "board found $board"
+  arduino-cli compile -b teensy:avr:teensy41 teensy
+  arduino-cli upload -b teensy:avr:teensy41 -p "$board" teensy
+  dirhash
+fi
